@@ -36,3 +36,27 @@ Compiling results in an MPI binary that runs as follows:
 <mpirun --oversubscribe -np <num_processes> ./executable <vector_size> <communication_error>>
 
 The second parameter given at runtime will be 0 if the connection between processes 0 and 1 exists (there is no communication error) or 1 if processes 0 and 1 cannot communicate directly. <br>
+
+
+### Implementation details
+
+To solve the requirement where there is no direct connection between processes 0 and 1, I thought of designing the connections from the beginning in such a way that process 0 cannot communicate directly with process 1.
+
+In the process of finding the topology, I used a structure consisting of four vectors, one for each process in the ring.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Sent this structure from 0 to 3, from 3 to 2, and from 2 to 1. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* After each process received the structure, it added all other processes in its own cluster to the corresponding vector of its rank and sent the updated structure further. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* After updating its vector, process 1 sent the complete structure back to 2 and to the processes in its own cluster. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Each process received the complete structure, displayed it, sent it to the processes in its own cluster, and to the neighboring process in the ring. <br>
+
+In the calculation process, I proceeded as follows:
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Process 0 created the vector and distributed it according to the number of workers (calculated using the topology). <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* It kept the index of the vector corresponding to the sub-processes in its cluster and sent the initial vector to process 3, along with the following information: <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- the index from which 3 can distribute elements from the vector for sub-processes <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- the number of elements each process needs to perform calculations <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- the plus variable, which can allocate an additional element for the worker to ensure an even distribution (remainder of division) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Each leader kept the index for its sub-processes and sent the initial vector to both its sub-processes and the next sub-process. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Finally, leader 1 waits for the results from its sub-processes and puts them in the initial vector at the specific index. Furher It sends the initial vector, modified only in its allocated area, to process 2. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Process 2 receives the vector from 1, modifies its specific area in this vector, and sends it to 3, which follows the same steps. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Process 0 modifies its area in the vector and displays the final result. <br>
