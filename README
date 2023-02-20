@@ -1,0 +1,42 @@
+----------------------
+Tudor George Alexandru
+334CC
+----------------------
+
+    Pentru a rezolva cerinta 3, am gandit de la inceput legaturile astgel
+incat procesul 0 sa nu poata comunica direct cu procesul 1.
+    In partea de aflare a topologiei am folosit o structura formata din 4
+vectori, cate unul pentru fiecare proces al inelului.
+-> Am trimis aceasta structura de la 0 la 3, de la 3 la 2 si de la 2 la 1.
+-> Dupa ce fiecare proces primea structura, adauga in vectorul corespunzator
+rank-ului lui, toate celelalte procese din clusterul propriu si trimitea mai
+departe structura actualizata.
+-> Procesul 1, dupa ce actualizat vectorul sau, a trimis structura completa
+inapoi, la 2, si respectiv proceselor din clusterul propriu.
+-> Fiecare proces primea structura completa, o afisa, o trimitea proceselor
+din clusterul propriu si mai departe procesului vecin din inel.
+
+    In rezolvarea cerintei 2 am procedat astfel:
+-> Procesul 0 a creat vectorul si a impartit corespunzator la numarul de
+workers (calculat cu ajutorul topologiei).
+-> A pastrat indexul din vector, corespunzator subproceselor din cluster si
+a trimis vectorul initial catre procesul 3, alaturi de urmatoarele informatii:
+    * indexul de la care 3 poate imparti elemete din vector pentru subprocese
+    * numarul de elemente pe care fiecare proces trebuie sa efectueze calcule
+    * variabila plus prin care se mai poate aloca inca un element pentru worker
+        astfel incat impartirea sa fie echitabila (restul impartirii)
+-> La fel ca 0, fiecare lider a pastrat indexul pentru subprocesele sale si a
+trimis vectorul initial atat la subprocesele lui cat si la urmatorul subproces.
+-> In final, liderul 1 asteapta rezultatele de la subprocese si le pune in
+vectorul initial, la indexul specific. Trimite apoi vectorul initial, modificat
+doar in zona repartizata lui, la procesul 2.
+-> Procesul 2 primeste vectorul de la 1, modifica zona specifica lui in acest
+vector, si il trimite la 3, care urmareste aceeiasi pasi.
+-> Procesul 0 modifica zona lui din vector si afiseaza rezultatul final.
+
+--------
+Mentiuni
+--------
+    Imi cer scuze pentru codul duplicat, nu am avut timp sa modularizez cum
+trebuie programul!
+    Multumesc!
