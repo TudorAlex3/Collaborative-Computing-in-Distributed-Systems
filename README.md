@@ -42,8 +42,11 @@ Thus, the previous requirements (establishing the topology in all processes and 
 
 ### Execution
 <p align="justify">
-Compiling results in an MPI binary that runs as follows: "mpirun --oversubscribe -np <num_processes> ./executable vector_size communication_error"
+Compiling results in an MPI binary that runs as follows:
 </p>
+
+"mpirun --oversubscribe -np <num_processes> ./executable vector_size communication_error"
+
 <p align="justify">
 The second parameter given at runtime will be 0 if the connection between processes 0 and 1 exists (there is no communication error) or 1 if processes 0 and 1 cannot communicate directly.
   </p> 
