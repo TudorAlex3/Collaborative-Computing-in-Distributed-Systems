@@ -1,5 +1,7 @@
-# Collaborative-Computing-in-Distributed-Systems
 <p align="justify">
+  
+# Collaborative-Computing-in-Distributed-Systems
+
 This is the implementation of a distributed program in MPI where processes are grouped into a topology consisting of four clusters, each with a coordinator and an arbitrary number of worker processes. Worker processes in a cluster can only communicate with their coordinator, and the four coordinators can communicate with each other in a ring topology to connect the clusters. 
 
 The project's goal is for all worker processes to work together, with the help of coordinators, to solve computational tasks. This will be achieved by establishing the topology and disseminating it to all processes, and then by dividing the calculations as evenly as possible among the workers. <br>
@@ -60,4 +62,4 @@ In the calculation process, I proceeded as follows:
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Finally, leader 1 waits for the results from its sub-processes and puts them in the initial vector at the specific index. Furher It sends the initial vector, modified only in its allocated area, to process 2. <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Process 2 receives the vector from 1, modifies its specific area in this vector, and sends it to 3, which follows the same steps. <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Process 0 modifies its area in the vector and displays the final result. <br>
-</p>
+  </p>
