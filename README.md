@@ -77,7 +77,7 @@ In the calculation process, I proceeded as follows:
       <p align="justify">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- the index from which 3 can distribute elements from the vector for sub-processes </p>
         <p align="justify">
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- the number of elements each process needs to perform calculations <</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- the number of elements each process needs to perform calculations </p>
           <p align="justify">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- the plus variable, which can allocate an additional element for the worker to ensure an even distribution (remainder of division) </p>
             <p align="justify">
