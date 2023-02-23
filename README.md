@@ -1,5 +1,6 @@
 # Collaborative-Computing-in-Distributed-Systems
 
+
 <p align="justify">
 This is the implementation of a distributed program in MPI where processes are grouped into a topology consisting of four clusters, each with a coordinator and an arbitrary number of worker processes. Worker processes in a cluster can only communicate with their coordinator, and the four coordinators can communicate with each other in a ring topology to connect the clusters.
 </p>
